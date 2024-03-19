@@ -1,17 +1,22 @@
 # Workflow derived from https://github.com/r-wasm/actions/tree/v1/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-on:
-  release:
-    # Must republish release to update assets
-    workflow_dispatch:
-
 name: Build and deploy wasm Rnssp package image
+
+on:
+  workflow_dispatch: # Manually trigger the workflow
+  # release:
+  #   types: [published] # Trigger on release events
 
 jobs:
   release-file-system-image:
-    uses: r-wasm/actions/.github/workflows/release-file-system-image.yml@v1
-    permissions:
-      # For publishing artifact files to the release
-      contents: write
-      # To download GitHub Packages within action
-      repository-projects: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build and deploy wasm Rnssp package image
+        uses: r-wasm/actions/.github/workflows/release-file-system-image.yml@v1
+        with:
+          strip: "demo, doc, examples, help, html, include, tests, vignette"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

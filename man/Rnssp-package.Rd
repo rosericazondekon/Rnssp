@@ -2,7 +2,6 @@
 % Please edit documentation in R/Rnssp-package.R
 \docType{package}
 \name{Rnssp-package}
-\alias{Rnssp}
 \alias{Rnssp-package}
 \title{Rnssp: A Signature R package for the National Syndromic Surveillance Program (NSSP)}
 \description{
@@ -13,8 +12,8 @@ A collection of tools, functions, and Rmarkdown templates that supports the Nati
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/CDCgov/Rnssp}
   \item \url{https://cdcgov.github.io/Rnssp}
+  \item \url{https://github.com/CDCgov/Rnssp}
 }
 
 }

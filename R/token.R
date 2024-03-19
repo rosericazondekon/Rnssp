@@ -14,7 +14,7 @@ Token <- R6::R6Class(
     ..auth_type = NULL
   ),
   public = list(
-
+    
     #' @description
     #' Initializes a new Credentials object.
     #' @param token a string for token
@@ -26,7 +26,7 @@ Token <- R6::R6Class(
         private$..auth_type <- auth_type
       }
     },
-
+    
     #' @description
     #' Get API response
     #' @param url a character of API URL
@@ -41,7 +41,7 @@ Token <- R6::R6Class(
       if (is.null(private$..token$value)) {
         message("Please, set your token!")
       } else {
-        assertive.types::assert_is_a_string(url)
+        assertions::assert_string(url)
         res <- url %>%
           httr::GET(., httr::add_headers(
             Authorization = paste(
@@ -55,7 +55,7 @@ Token <- R6::R6Class(
         return(res)
       }
     },
-
+    
     #' @description
     #' Get API data
     #' @param url a character ofAPI URL
@@ -72,7 +72,7 @@ Token <- R6::R6Class(
     #' api_data_csv <- myProfile$get_api_data(csv_url, fromCSV = TRUE)
     #' }
     get_api_data = function(url, fromCSV = FALSE, ...) {
-      assertive.types::assert_is_a_string(url)
+      assertions::assert_string(url)
       apir <- self$get_api_response(url)
       if(apir$status_code == 200){
         apir %>% {
@@ -84,7 +84,7 @@ Token <- R6::R6Class(
         }
       }
     },
-
+    
     #' @description
     #' Get API graph
     #' @param url a character of API URL
@@ -100,6 +100,7 @@ Token <- R6::R6Class(
     #' grid::grid.raster(img)
     #' }
     get_api_graph = function(url, file_ext = ".png") {
+      assertions::assert_string(url)
       graph <- tempfile(fileext = file_ext)
       apir <- url %>%
         httr::GET(., httr::add_headers(

@@ -18,7 +18,7 @@ jobs:
     - name: Build wasm packages
       uses: r-wasm/actions/build-wasm-packages@v0.0.3
       with:
-        strip: "demo, docs, examples, help, html, include, tests, vignettes"
+        strip: c("demo", "docs", "examples", "help", "html", "include", "tests", "pkgdown", "vignettes")
   deploy:
     name: Deploy to GitHub pages
     needs: build

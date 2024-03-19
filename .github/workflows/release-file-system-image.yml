@@ -34,12 +34,12 @@ jobs:
       - name: Download wasm R package repository artifact
         uses: actions/download-artifact@v3
         with:
-          name: wasm_repo
+          name: wasm-repo
           path: _site
       - name: Download wasm R library image artifact
         uses: actions/download-artifact@v3
         with:
-          name: wasm_image
+          name: wasm-image
           path: _site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2

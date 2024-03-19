@@ -35,12 +35,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: wasm_repo
-          path: docs
+          path: _site
       - name: Download wasm R library image artifact
         uses: actions/download-artifact@v3
         with:
           name: wasm_image
-          path: docs
+          path: _site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
       - name: Deploy to GitHub Pages

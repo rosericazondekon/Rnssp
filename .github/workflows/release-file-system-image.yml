@@ -1,39 +1,48 @@
 # Workflow derived from https://github.com/r-wasm/actions/tree/v1/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
-  # Or when triggered manually
-  workflow_dispatch: {}
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
+  workflow_dispatch:
 
-name: Rnssp WASM build
+name: Build wasm R package repository
 
 jobs:
-  rwasmbuild:
-    # Only restrict concurrency for non-PR jobs
-    concurrency:
-      group: r-wasm-${{ github.event_name != 'pull_request' || github.run_id }}
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
+  build:
     runs-on: ubuntu-latest
+    container: ghcr.io/r-wasm/webr:main
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      # Build the local R package and structure the CRAN repository
-      - name: Build WASM R packages
-        uses: r-wasm/actions/build-rwasm@v1
+    - uses: actions/checkout@v3
+    - name: Build wasm packages
+      uses: r-wasm/actions/build-wasm-packages@v0.0.3
+      with:
+        strip: c("demo", "docs", "examples", "help", "html", "include", "tests", "pkgdown", "vignettes")
+  deploy:
+    name: Deploy to GitHub pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download wasm R package repository artifact
+        uses: actions/download-artifact@v3
         with:
-          packages: "."
-          repo-path: "docs"
-          strip: "demo, doc, examples, help, html, include, tests, vignette"
-      
-      # Upload the CRAN repository for use in the next step
-      # Make sure to set a retention day to avoid running into a cap
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+          name: Rnssp_wasm_repo
+          path: docs
+      - name: Download wasm R library image artifact
+        uses: actions/download-artifact@v3
         with:
-          name: Rnssp_wasm
-          path: |
-            docs
-          retention-days: 1
+          name: Rnssp_wasm_image
+          path: docs
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

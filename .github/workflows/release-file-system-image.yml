@@ -7,7 +7,7 @@ on:
   #   branches: [main]
   workflow_dispatch:
 
-name: Build wasm R package repository
+name: Build Rnssp wasm repository
 
 jobs:
   build:

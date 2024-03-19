@@ -1,10 +1,13 @@
 # For help debugging build failures open an issue on the RStudio community with the 'github-actions' tag.
 # https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
+# on:
+#   push:
+#     branches:
+#       - master
+#       - main
+
 on:
-  push:
-    branches:
-      - master
-      - main
+  workflow_dispatch: # This enables manual triggering
 
 name: Rnssp Pipeline
 

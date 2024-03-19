@@ -26,7 +26,7 @@ License: Apache License (>= 2)
 URL: https://cdcgov.github.io/Rnssp, https://github.com/CDCgov/Rnssp
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     testthat,
     knitr,
@@ -43,7 +43,7 @@ Suggests:
 Imports: 
     R6,
     stringi,
-    assertive.types,
+    assertions,
     safer,
     jsonlite,
     httr,
